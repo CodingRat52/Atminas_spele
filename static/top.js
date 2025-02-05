@@ -38,7 +38,6 @@ async function atlasitTop()
 
 atlasitTop();
 
-
 function pievienotTop() {
   let tabula = document.querySelector('.tops');
   tabula.innerHTML = tabula.innerHTML +`
@@ -48,4 +47,28 @@ function pievienotTop() {
       <td>`+laiks+`</td>
       <td>`+datumsVirkne+`</td>
     </tr>`;
+  saglabatTop(); // Call the save function after adding the new entry
+}
+
+async function saglabatTop() {
+  const newEntry = {
+    vards: vards,
+    klikski: klikski,
+    laiks: laiks,
+    datums: datumsVirkne
+  };
+
+  const response = await fetch('/save-data', { // Updated endpoint
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newEntry)
+  });
+
+  if (response.ok) {
+    console.log('Data saved successfully');
+  } else {
+    console.error('Error saving data');
+  }
 }
